@@ -17,9 +17,9 @@ function App() {
           </div>
 
           <div className="profile__info">
-            <p className="profile__name">Eddie Melendez</p>
+            <p className="profile__name">Cousteau</p>
             <button className="profile__edit-btn" aria-label="Profile edit"></button>
-            <p className="profile__title"></p>
+            <p className="profile__title">Explorer</p>
           </div>
 
           <button className="profile__add-btn" aria-label="Add card"></button>
