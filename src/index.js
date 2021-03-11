@@ -1,14 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import './blocks/content/content.css';
-import './blocks/footer/footer.css';
-import './blocks/form/form.css';
-import './blocks/header/header.css';
-import './blocks/modal/modal.css';
-import './blocks/page/page.css';
-import './blocks/photos/photos.css';
-import './blocks/profile/profile.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
