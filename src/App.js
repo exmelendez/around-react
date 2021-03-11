@@ -1,15 +1,13 @@
 import Header from './components/Header.js';
 import Main from './components/Main.js';
+import Footer from './components/Footer.js';
 
 function App() {
   return (
     <>
       <Header />
       <Main />
-
-      <footer className="footer">
-        <p className="footer__copyright">© 2020 Around The U.S.</p>
-      </footer>
+      <Footer />
 
       {/* EDIT PROFILE MODAL */}
       <div className="modal modal_type_edit-profile">
