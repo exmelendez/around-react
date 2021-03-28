@@ -1,106 +1,79 @@
+import React, {useState} from  'react';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
 import Footer from './components/Footer.js';
+import PopupWithForm from './components/PopupWithForm';
+import ImagePopup from './components/ImagePopup';
 
 function App() {
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+
+  function handleEditProfileClick() {
+    setEditProfilePopupOpen(!isEditProfilePopupOpen);
+    enableEscKey();
+  }
+
+  function handleEditAddPlaceClick() {
+    setAddPlacePopupOpen(!isAddPlacePopupOpen);
+    enableEscKey();
+  }
+
+  function handleEditAvatarClick() {
+    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    enableEscKey();
+  }
+
+  function closeAllPopups() {
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setEditAvatarPopupOpen(false);
+    document.removeEventListener("keyup", handleEscClose);
+  }
+
+  function enableEscKey() {
+    document.addEventListener("keyup", handleEscClose);
+  }
+
+  function handleEscClose(e) {
+    if (e.key === 'Escape') {
+      closeAllPopups();
+    }
+  }
+
   return (
     <>
       <Header />
-      <Main />
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
       <Footer />
 
-      {/* EDIT PROFILE MODAL */}
-      <div className="modal modal_type_edit-profile">
-        <div className="modal__container">
-          <button className="modal__close-btn modal_close_profile" aria-label="Close popup">&plus;</button>
-          <h2 className="modal__title">Edit profile</h2>
+      <PopupWithForm name={"edit-profile"} title={"Edit profile"} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+        <input id="profile-name" className="form__input form__input-profile-name" type="text" name="name" placeholder="Name"
+              minLength="2" maxLength="40" required />
+        <span id="profile-name-error" className="form__error"></span>
 
-          <form className="form form_type_edit-profile">
-            <input id="profile-name" className="form__input form__input-profile-name" type="text" name="name" placeholder="Name"
-              minlength="2" maxlength="40" required />
-            <span id="profile-name-error" className="form__error"></span>
+        <input id="profile-title" className="form__input form__input-profile-title" type="text" name="about"
+          placeholder="Title" minLength="2" maxLength="200" required />
+        <span id="profile-title-error" className="form__error"></span>
+      </PopupWithForm>
 
-            <input id="profile-title" className="form__input form__input-profile-title" type="text" name="about"
-              placeholder="Title" minlength="2" maxlength="200" required />
-            <span id="profile-title-error" className="form__error"></span>
-
-            <button className="form__save-btn" type="submit" aria-label="Save form">Save</button>
-          </form>
-        </div>
-      </div>
-
-      {/* ADD CARD MODAL */}
-      <div className="modal modal_type_add-card">
-        <div className="modal__container">
-          <button className="modal__close-btn modal_close_add-card" aria-label="Close popup">&plus;</button>
-          <h2 className="modal__title">New place</h2>
-          <form className="form form_type_add-card">
-            <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
-              minlength="1" maxlength="30" required />
-            <span id="card-title-error" className="form__error"></span>
-
-            <input id="card-url" className="form__input form__input_card-url" type="url" name="link" placeholder="Link"
+      <PopupWithForm name={"edit-avatar"} title={"Change profile picture"} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+        <input id="card-url" className="form__input form__input_avatar-update" type="url" name="avatar" placeholder="Link"
               required />
-            <span id="card-url-error" className="form__error"></span>
+        <span id="card-url-error" className="form__error"></span>
+      </PopupWithForm>
 
-            <button className="form__save-btn" aria-label="Save form">Save</button>
-          </form>
-        </div>
-      </div>
+      <PopupWithForm name={"add-card"} title={"New place"} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
+        <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
+              minLength="1" maxLength="30" required />
+        <span id="card-title-error" className="form__error"></span>
 
-      {/* IMAGE VIEW MODAL */}
-      <div className="modal modal_type_image-view">
-        <div className="modal__container modal__container_size-image">
-          <button className="modal__close-btn modal_close_image-view" aria-label="Close popup">&plus;</button>
-          <p className="modal__image-title"></p>
-        </div>
-      </div>
-
-      {/* CONFIRM CARD DELETE MODAL */}
-      <div className="modal modal_type_confirm-delete">
-        <div className="modal__container modal__container_type-delete">
-          <button className="modal__close-btn modal_close_confirm-delete" aria-label="Close popup">&plus;</button>
-          <h2 className="modal__title">Are you sure?</h2>
-
-          <form className="form form_type_confirm-delete">
-            <button className="form__save-btn modal__confirm-delete-btn" type="submit"
-              aria-label="Confirm Card Delete">Yes</button>
-          </form>
-        </div>
-      </div>
-
-      {/* UPDATE AVATAR MODAL */}
-      <div className="modal modal_type_update-avatar">
-        <div className="modal__container modal__container_update-avatar">
-          <button className="modal__close-btn modal_close_confirm-delete" aria-label="Close popup">&plus;</button>
-          <h2 className="modal__title">Change profile picture</h2>
-
-          <form className="form form_type_edit-avatar">
-            <input id="card-url" className="form__input form__input_avatar-update" type="url" name="avatar" placeholder="Link"
-              required />
-            <span id="card-url-error" className="form__error"></span>
-
-            <button className="form__save-btn" aria-label="Save form">Save</button>
-          </form>
-        </div>
-      </div>
-
-      {/* CARD TEMPLATE */}
-      <template className="card-template">
-        <li className="photos__item">
-          <button className="photos__delete-btn" aria-label="Delete card"></button>
-          <div className="photos__image"></div>
-
-          <div className="photos__item-info">
-            <p className="photos__title"></p>
-            <div className="photos__likes-container">
-              <button className="photos__love-btn" aria-label="Love"></button>
-              <p className="photos__likes"></p>
-            </div>
-          </div>
-        </li>
-      </template>
-
+        <input id="card-url" className="form__input form__input_card-url" type="url" name="link" placeholder="Link"
+          required />
+        <span id="card-url-error" className="form__error"></span>
+      </PopupWithForm>
+      <ImagePopup name={"imave-view"} />
     </>
   );
 }
