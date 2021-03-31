@@ -1,15 +1,23 @@
 import React, {useState} from  'react';
-import Header from './components/Header.js';
-import Main from './components/Main.js';
-import Footer from './components/Footer.js';
-import PopupWithForm from './components/PopupWithForm';
-import ImagePopup from './components/ImagePopup';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState("");
 
+  function handleCardClick(card) {
+    setImagePopupOpen(!isImagePopupOpen);
+    setSelectedCard(card.link);
+    enableEscKey();
+  }
+  
   function handleEditProfileClick() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
     enableEscKey();
@@ -29,6 +37,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
+    setImagePopupOpen(false);
     document.removeEventListener("keyup", handleEscClose);
   }
 
@@ -45,7 +54,7 @@ function App() {
   return (
     <>
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} />
       <Footer />
 
       <PopupWithForm name={"edit-profile"} title={"Edit profile"} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
@@ -73,7 +82,8 @@ function App() {
           required />
         <span id="card-url-error" className="form__error"></span>
       </PopupWithForm>
-      <ImagePopup name={"imave-view"} />
+
+      <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/>
     </>
   );
 }
