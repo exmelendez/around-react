@@ -33,10 +33,6 @@ Download the repo to your local machine. Once installed run ```npm start``` from
 
 ### Sample Images
 
-![Gif of edit profile open, edit + save](./src/images/modal_open_form_save.gif)
-
 ![Screen shot of image expanded modal](./src/images/image_expand_modal-min.png)
 
 ![Screen shot of form validation messages](./src/images/form_validation-min.png)
-
-![Gif of cards being removed with delete button](./src/images/card_delete.gif)
