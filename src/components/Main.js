@@ -14,15 +14,15 @@ function Main(props) {
         setUserName(user.name);
         setUserDescription(user.about);
         setUserAvatar(user.avatar);
-      })
-      .catch((err) => console.log(err));
 
-      api.getCardList()
+        api.getCardList()
         .then(cardData => {
           setCards(cardData);
-          
         })
         .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+      
   }, []);
 
   return (

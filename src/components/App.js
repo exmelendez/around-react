@@ -10,11 +10,12 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState("");
+  /* as per Maksim Kulichenko (Practicum Tutor) the initial state of setSelectedCard should be intialized as null or undefined */
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleCardClick(card) {
     setImagePopupOpen(!isImagePopupOpen);
-    setSelectedCard(card.link);
+    setSelectedCard(card);
     enableEscKey();
   }
   
@@ -33,12 +34,15 @@ function App() {
     enableEscKey();
   }
 
-  function closeAllPopups() {
-    setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
-    setEditAvatarPopupOpen(false);
-    setImagePopupOpen(false);
-    document.removeEventListener("keyup", handleEscClose);
+  function closeAllPopups(e) {
+    if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
+      setEditProfilePopupOpen(false);
+      setAddPlacePopupOpen(false);
+      setEditAvatarPopupOpen(false);
+      setImagePopupOpen(false);
+      setSelectedCard(null);
+      document.removeEventListener("keyup", handleEscClose);
+    }
   }
 
   function enableEscKey() {
@@ -47,7 +51,7 @@ function App() {
 
   function handleEscClose(e) {
     if (e.key === 'Escape') {
-      closeAllPopups();
+      closeAllPopups(e);
     }
   }
 
@@ -83,7 +87,10 @@ function App() {
         <span id="card-url-error" className="form__error"></span>
       </PopupWithForm>
 
-      <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/>
+      {
+        isImagePopupOpen ? <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups}/> : ""
+      }
+      
     </>
   );
 }
