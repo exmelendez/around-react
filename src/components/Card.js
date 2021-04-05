@@ -4,9 +4,9 @@ function Card(props) {
   } 
 
   return (
-    <li className="photos__item" onClick={handleClick}>
+    <li className="photos__item">
       <button className="photos__delete-btn" aria-label="Delete card"></button>
-      <div className="photos__image" style={{ backgroundImage: `url(${props.card.link})` }}></div>
+      <div className="photos__image" style={{ backgroundImage: `url(${props.card.link})` }} onClick={handleClick}></div>
 
       <div className="photos__item-info">
         <p className="photos__title">{props.card.name}</p>
