@@ -19,13 +19,6 @@ function App() {
     api.getUserInfo()
       .then(user => {
         setCurrentUser(user);
-/*
-        api.getCardList()
-        .then(cardData => {
-          //code here use "cardData"
-        })
-        .catch((err) => console.log(err));
-        */
       })
       .catch((err) => console.log(err));
       
