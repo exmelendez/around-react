@@ -7,6 +7,25 @@ function Main(props) {
   const currentUser = useContext(CurrentUserContext);
   const [cards, setCards] = useState([]);
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleCardDelete(card) {
+    api.removeCard(card._id)
+    .then(() => {
+      const updatedCards = cards.filter((c) => c._id !== card._id);
+      setCards(updatedCards);
+    })
+    .catch((err) => console.log(err));
+  }
+
   useEffect(() => {
     api.getCardList()
       .then(cardData => {
@@ -37,7 +56,7 @@ function Main(props) {
        <ul className="photos__grid">
          {
            cards.map(card => (
-             <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+             <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
            ))
          }
        </ul>
