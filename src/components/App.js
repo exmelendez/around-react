@@ -6,6 +6,7 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -45,6 +46,21 @@ function App() {
     enableEscKey();
   }
 
+  function handleUpdateUser(inputValues) {
+    
+    api.setUserInfo(inputValues)
+    .then(userInfoResponse => {
+      setCurrentUser({
+        name: userInfoResponse.name,
+        about: userInfoResponse.about,
+        avatar: userInfoResponse.avatar
+      });
+
+      setEditProfilePopupOpen(false);
+    })
+    .catch((err) => console.log(err));
+  }
+
   function closeAllPopups(e) {
     if (e.target.classList.contains('modal__close-btn') || e.target.classList.contains('modal_is-open') || e.key === "Escape") {
       setEditProfilePopupOpen(false);
@@ -73,15 +89,7 @@ function App() {
         <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} />
         <Footer />
 
-        <PopupWithForm name={"edit-profile"} title={"Edit profile"} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-          <input id="profile-name" className="form__input form__input-profile-name" type="text" name="name" placeholder="Name"
-                minLength="2" maxLength="40" required />
-          <span id="profile-name-error" className="form__error"></span>
-
-          <input id="profile-title" className="form__input form__input-profile-title" type="text" name="about"
-            placeholder="Title" minLength="2" maxLength="200" required />
-          <span id="profile-title-error" className="form__error"></span>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
         <PopupWithForm name={"edit-avatar"} title={"Change profile picture"} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
           <input id="card-url" className="form__input form__input_avatar-update" type="url" name="avatar" placeholder="Link"
