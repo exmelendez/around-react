@@ -7,6 +7,7 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ name: "", about: "", avatar: "" });
@@ -50,15 +51,33 @@ function App() {
     
     api.setUserInfo(inputValues)
     .then(userInfoResponse => {
+
       setCurrentUser({
         name: userInfoResponse.name,
         about: userInfoResponse.about,
-        avatar: userInfoResponse.avatar
+        avatar: currentUser.avatar
       });
 
       setEditProfilePopupOpen(false);
     })
     .catch((err) => console.log(err));
+  }
+
+  function handleUpdateAvatar(avatar) {
+    
+    api.setUserAvatar(avatar)
+    .then(response => {
+      
+      setCurrentUser({
+        name: currentUser.name,
+        about: currentUser.about,
+        avatar: response.avatar
+      });
+
+      setEditAvatarPopupOpen(false);
+    })
+    .catch((err) => console.log(err));
+    
   }
 
   function closeAllPopups(e) {
@@ -90,12 +109,7 @@ function App() {
         <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-
-        <PopupWithForm name={"edit-avatar"} title={"Change profile picture"} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-          <input id="card-url" className="form__input form__input_avatar-update" type="url" name="avatar" placeholder="Link"
-                required />
-          <span id="card-url-error" className="form__error"></span>
-        </PopupWithForm>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
         <PopupWithForm name={"add-card"} title={"New place"} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
