@@ -34,12 +34,14 @@ function App() {
   }
 
   function handleAddPlace(newPlace) {
-    setAddPlacePopupOpen(false);
     api.addCard(newPlace)
     .then(newCard => {
       setCards([newCard, ...cards]);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      setAddPlacePopupOpen(false);
+    });
   }
   
   function handleCardClick(card) {
@@ -92,31 +94,31 @@ function App() {
     
     api.setUserAvatar(avatar)
     .then(response => {
-      
       setCurrentUser({
         name: currentUser.name,
         about: currentUser.about,
         avatar: response.avatar
       });
-
-      setEditAvatarPopupOpen(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      setEditAvatarPopupOpen(false);
+    });
   }
 
   function handleUpdateUser(inputValues) {
     api.setUserInfo(inputValues)
     .then(userInfoResponse => {
-
       setCurrentUser({
         name: userInfoResponse.name,
         about: userInfoResponse.about,
         avatar: currentUser.avatar
       });
-
-      setEditProfilePopupOpen(false);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      setEditProfilePopupOpen(false);
+    });
   }
 
   useEffect(() => {
