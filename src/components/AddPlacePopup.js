@@ -24,10 +24,10 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   return (
     <PopupWithForm name={"add-card"} title={"New place"} isOpen={isOpen} onClose={onClose} handleSubmit={handleSubmit}>
       <input id="card-title" className="form__input form__input_card-title" type="text" name="name" placeholder="Title"
-            minLength="1" maxLength="30" required onChange={handleCardNameAdd} />
+            minLength="1" maxLength="30" value={cardName} onChange={handleCardNameAdd} required />
       <span id="card-title-error" className="form__error"></span>
 
-      <input id="card-url" className="form__input form__input_card-url" type="url" name="link" placeholder="Link" onChange={handleCardLinkAdd}
+      <input id="card-url" className="form__input form__input_card-url" type="url" name="link" placeholder="Link" value={cardLink} onChange={handleCardLinkAdd}
         required />
       <span id="card-url-error" className="form__error"></span>
     </PopupWithForm>
