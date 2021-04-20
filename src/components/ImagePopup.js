@@ -1,12 +1,12 @@
-function ImagePopup(props) {
+function ImagePopup({isOpen, onClose, card}) {
   const xSymbol = '\u002B';
 
   return (
     
-  <div className={`modal modal_type_image-view ${props.isOpen ? 'modal_is-open' : ''}`} onClick={props.onClose}>
-    <div className="modal__container modal__container_size-image" style={{ backgroundImage: `url(${props.card.link})` }}>
-      <button className="modal__close-btn modal_close_image-view" aria-label="Close popup" onClick={props.onClose}>{xSymbol}</button>
-      <p className="modal__image-title">{props.card.name}</p>
+  <div className={`modal modal_type_image-view ${isOpen ? 'modal_is-open' : ''}`} onClick={onClose}>
+    <div className="modal__container modal__container_size-image" style={{ backgroundImage: `url(${card.link})` }}>
+      <button className="modal__close-btn modal_close_image-view" aria-label="Close popup" onClick={onClose}>{xSymbol}</button>
+      <p className="modal__image-title">{card.name}</p>
     </div>
   </div>
   );
