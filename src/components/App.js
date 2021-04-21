@@ -35,6 +35,12 @@ function App() {
 
   function handleAddPlace(newPlace) {
     api.addCard(newPlace)
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(newCard => {
       setCards([newCard, ...cards]);
     })
@@ -43,7 +49,7 @@ function App() {
       setAddPlacePopupOpen(false);
     });
   }
-  
+
   function handleCardClick(card) {
     setImagePopupOpen(!isImagePopupOpen);
     setSelectedCard(card);
@@ -52,6 +58,12 @@ function App() {
 
   function handleCardDelete(card) {
     api.removeCard(card._id)
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(() => {
       const updatedCards = cards.filter((c) => c._id !== card._id);
       setCards(updatedCards);
@@ -63,7 +75,13 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, isLiked)
-      .then((newCard) => {
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
       })
       .catch((err) => console.log(err));
@@ -93,6 +111,12 @@ function App() {
   function handleUpdateAvatar(avatar) {
     
     api.setUserAvatar(avatar)
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(response => {
       setCurrentUser({
         name: currentUser.name,
@@ -108,6 +132,12 @@ function App() {
 
   function handleUpdateUser(inputValues) {
     api.setUserInfo(inputValues)
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
     .then(userInfoResponse => {
       setCurrentUser({
         name: userInfoResponse.name,
@@ -123,12 +153,24 @@ function App() {
 
   useEffect(() => {
     api.getUserInfo()
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Error: ${res.status}`);
+      }
+      return res.json();
+    })
       .then(user => {
         setCurrentUser(user);
       })
       .catch((err) => console.log(err));
 
     api.getCardList()
+      .then(res => {
+        if (!res.ok) {
+          return Promise.reject(`Error: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(cardData => {
         setCards(cardData);
       })
